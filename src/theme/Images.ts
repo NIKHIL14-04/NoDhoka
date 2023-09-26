@@ -15,11 +15,6 @@ export default function ({}: ThemeVariables) {
       main:require("./assets/images/main.png"),
       bglg:require("./assets/images/nikhil.png"),
       otplg:require("./assets/images/Nikhil1.png"),
-
-
-      
-
-
     },
     icons: {
       colors: require('./assets/images/colorswatch.png'),

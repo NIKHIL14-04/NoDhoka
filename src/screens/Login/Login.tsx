@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import {
   SafeAreaView,
@@ -7,13 +6,15 @@ import {
   TouchableOpacity,
   Text,
   Alert,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
 import { ApplicationScreenProps } from '../../../@types/navigation';
 import { useTheme } from '../../hooks';
+import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = ( { navigation }: ApplicationScreenProps) => {
+const Login = ({ navigation }: ApplicationScreenProps) => {
   const {
     Common,
     Fonts,
@@ -22,62 +23,75 @@ const Login = ( { navigation }: ApplicationScreenProps) => {
     Images,
     darkMode: isDark,
   } = useTheme();
-
   const [value, setValue] = useState('');
   const [valid, setValid] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-
   const phoneInput = useRef<PhoneInput | null>(null);
-
-  const handleValidation = () => {
+  const handleValidation = async () => {
     const checkValid = phoneInput.current?.isValidNumber(value);
+    // var confirmation = await auth().signInWithPhoneNumber(`+91 ${value}`);
+    // console.log(confirmation.verificationId)
+    // if (confirmation.verificationId !== null) {
+    //   var verify_data = {
+    //     verify_id:confirmation.verificationId ,
+    //     mobile_num: value,
+    //   };
+    //   try {
+    //     await AsyncStorage.setItem('verificationID',confirmation.verificationId);
+    //     console.log('save data');
+    //   } catch (e) {}
+    // }
     setShowMessage(true);
     setValid(checkValid ? checkValid : false);
-    
-    if (checkValid) { 
+    console.log(value);
+
+    if (checkValid) {
       Alert.alert('Message', 'OTP has been sent to your mobile number', [
         {
           text: 'OK',
-          onPress: () => navigation.navigate('Main',{
-            screen:"Home"
-          }), 
+          onPress: () =>
+            navigation.navigate('Main', {
+              screen: 'Home',
+            }),
         },
       ]);
     }
   };
 
-
   return (
     <View style={styles.MainContainer}>
-      <ImageBackground source={Images.sparkles.bglg} style={styles.imageBackground}>
-      <SafeAreaView>
-        <PhoneInput 
-          ref={phoneInput}
-          // containerStyle={{ backgroundColor: 'none'}}
-          defaultValue={value}
-          defaultCode="IN"
-          layout="first"
-          // textContainerStyle={{backgroundColor: 'transparent'}}
-          // textInputStyle={}
-          onChangeText={(text) => {
-            setValue(text);
-            setValid(false);
-            setShowMessage(false); 
-          }}
-      
-          withDarkTheme
-          withShadow
-          autoFocus
-        />
-        {showMessage && !valid && (
-         <Text style={styles.errormessage}>Please enter valid phone number</Text>
-        )} 
-        <TouchableOpacity onPress={handleValidation} style={styles.button}>
-          <Text style={styles.text} >Submit</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
+      <ImageBackground
+        source={Images.sparkles.bglg}
+        style={styles.imageBackground}
+      >
+        <SafeAreaView>
+          <PhoneInput
+            ref={phoneInput}
+            // containerStyle={{ backgroundColor: 'black'}}
+            defaultValue={value}
+            defaultCode="IN"
+            layout="first"
+            // textContainerStyle={{backgroundColor: 'transparent'}}
+            // textInputStyle={}
+            onChangeText={text => {
+              setValue(text);
+              setValid(false);
+              setShowMessage(false);
+            }}
+            withDarkTheme
+            withShadow
+            autoFocus
+          />
+          {showMessage && !valid && (
+            <Text style={styles.errormessage}>
+              Please enter valid phone number
+            </Text>
+          )}
+          <TouchableOpacity onPress={handleValidation} style={styles.button}>
+            <Text style={styles.text}>Submit</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
       </ImageBackground>
-
     </View>
   );
 };
@@ -89,7 +103,7 @@ const styles = StyleSheet.create({
   },
   errormessage: {
     color: 'red',
-    fontSize:12
+    fontSize: 12,
   },
   button: {
     alignItems: 'center',
@@ -99,7 +113,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'rgb(0,191,99)',
-    marginTop:20
+    marginTop: 20,
   },
   text: {
     fontSize: 16,
@@ -110,10 +124,11 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     flex: 1,
-    resizeMode: 'cover', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
+    resizeMode: 'cover',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
 export default Login;
+

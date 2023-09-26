@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "675792007903",
+    "project_id": "nodhoka",
+    "storage_bucket": "nodhoka.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675792007903:android:9fecef234bf2662eb6af6a",
+        "android_client_info": {
+          "package_name": "com.nodhoka"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "675792007903-qr8f88bm66c05m8peva0k751n121p1h1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV-q3pc-S_zDFHr5UheAhTOJ4BY0Ohmwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "675792007903-qr8f88bm66c05m8peva0k751n121p1h1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
